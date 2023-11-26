@@ -11,11 +11,9 @@ std::random_device rd;
 std::mt19937 rng; 
 
 class GameBoard {
-private:
+public:
     int board[4][4];
     int score;
-
-public:
     // Constructor
     GameBoard();
 
@@ -42,11 +40,11 @@ public:
     void operatemoveDown(bool isMoved);
     void operatemoveLeft(bool isMoved);
     void operatemoveRight(bool isMoved);
+    bool isBoardFull();
 
 private:
     // Helper functions
     void addNewTile();
-    bool isBoardFull();
     void mergeCells(int currentRow, int currentCol, int nextRow, int nextCol);
 
 };
