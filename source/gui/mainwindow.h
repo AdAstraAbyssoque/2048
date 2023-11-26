@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QSettings>
+#include <map>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

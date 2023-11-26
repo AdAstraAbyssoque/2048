@@ -42,7 +42,6 @@ public:
     void operatemoveLeft(bool isMoved);
     void operatemoveRight(bool isMoved);
     bool isBoardFull();
-    
 
 private:
     // Helper functions

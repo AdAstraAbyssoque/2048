@@ -37,6 +37,20 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->addWidget(highestScoreLabel);
     currentScoreLabel = new QLabel("Current Score: 0", this);
     statusBar()->addWidget(currentScoreLabel);
+
+    setWindowTitle("2048 Game");
+    setFixedSize(300, 500);
+
+    QFrame *backgroundFrame = new QFrame(this);
+    backgroundFrame->setGeometry(75, 20, 170, 80);
+    backgroundFrame->setStyleSheet("background-color: #CCCCCC; border-radius: 10px;");
+
+    QLabel *titleLabel = new QLabel("2048", this);
+    titleLabel->setFont(QFont("Arial", 40, QFont::Bold));
+    titleLabel->setStyleSheet("QLabel { color : #776e65; }"); 
+    titleLabel->setGeometry(100, 10, 200, 100); 
+
+
 }
 
 MainWindow::~MainWindow()
@@ -64,6 +78,26 @@ int GameBoard::getHighestScore() const {
     return highestScore;
 }
 
+std::map<int, QColor> colorMap = {
+    {0, Qt::lightGray},
+    {2, Qt::yellow},
+    {4, Qt::darkYellow},
+    {8, Qt::green},
+    {16, Qt::darkGreen},
+    {32, Qt::cyan},
+    {64, Qt::darkCyan},
+    {128, Qt::magenta},
+    {256, Qt::darkMagenta},
+    {512, Qt::red},
+    {1024, Qt::darkRed},
+    {2048, Qt::blue},
+    {4096, Qt::darkBlue},
+    {8192, Qt::gray},
+    {16384, Qt::darkGray},
+    {32768, Qt::lightGray},
+    {65536, Qt::white}
+};
+
 void MainWindow::paintEvent(QPaintEvent *event){
     (void)event;
     QPainter p(this);
@@ -72,130 +106,27 @@ void MainWindow::paintEvent(QPaintEvent *event){
 
     QString strscore;
     p.drawText(60, 350, "Score: " + strscore.setNum(game.getScore()));
-
-    for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; j++){
+        for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
             p.setPen(Qt::transparent);
-            if (game.board[j][i] == 0){
+            int value = game.board[j][i];
+            
+            if (colorMap.find(value) != colorMap.end()) {
+                p.setBrush(colorMap[value]);
+                p.drawRoundedRect(i * 60 + 40, j * 60 + 120, 55, 55, 10, 10);
+
+                if (value != 0) {
+                    p.setPen(Qt::black);
+                    p.setFont(QFont("Arial", 20));
+                    p.drawText(QRect(i * 60 + 40, j * 60 + 120, 55, 55), QString::number(value), QTextOption(Qt::AlignCenter));
+                }
+            } else {
                 p.setBrush(Qt::lightGray);
-                p.drawRect(i*60+40,j*60+120,55,55);
-            }
-            else if (game.board[j][i] == 2){
-                p.setBrush(Qt::yellow);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(2), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 4){
-                p.setBrush(Qt::darkYellow);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(4), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 8){
-                p.setBrush(Qt::green);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(8), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 16){
-                p.setBrush(Qt::darkGreen);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(16), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 32){
-                p.setBrush(Qt::cyan);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(32), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 64){
-                p.setBrush(Qt::darkCyan);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(64), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 128){
-                p.setBrush(Qt::magenta);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(128), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 256){
-                p.setBrush(Qt::darkMagenta);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(256), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 512){
-                p.setBrush(Qt::red);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(512), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 1024){
-                p.setBrush(Qt::darkRed);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(1024), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 2048){
-                p.setBrush(Qt::blue);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(2048), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 4096){
-                p.setBrush(Qt::darkBlue);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(4096), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 8192){
-                p.setBrush(Qt::gray);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(8192), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 16384){
-                p.setBrush(Qt::darkGray);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), QString::number(16384), QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 32768){
-                p.setBrush(Qt::lightGray);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::white);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), "32768", QTextOption(Qt::AlignCenter));
-            }
-            else if (game.board[j][i] == 65536){
-                p.setBrush(Qt::white);
-                p.drawRect(i*60+40,j*60+120,55,55);
-                p.setPen(Qt::black);
-                p.setFont(QFont("Arial", 20));
-                p.drawText(QRect(i*60+40,j*60+120,55,55), "65536", QTextOption(Qt::AlignCenter));
+                p.drawRect(i * 60 + 40, j * 60 + 120, 55, 55);
             }
         }
     }
 }
-
 void MainWindow::keyPressEvent(QKeyEvent *event){
     if (!gameStarted) {
         return;
