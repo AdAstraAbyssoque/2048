@@ -230,26 +230,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
             isMoved = game.moveRight();
             game.operatemoveRight(isMoved);
             break;
-        case Qt::Key_Right:
-            std::cout<< "Key Right pressed."<<std::endl;
-            isMoved = game.moveRight();
-            game.operatemoveRight(isMoved);
-            break;
-        case Qt::Key_Left:
-            std::cout<< "Key Left pressed."<<std::endl;
-            isMoved = game.moveLeft();
-            game.operatemoveLeft(isMoved);
-            break;
-        case Qt::Key_Up:
-            std::cout<< "Key Up pressed."<<std::endl;
-            isMoved = game.moveUp();
-            game.operatemoveUp(isMoved);
-            break;
-        case Qt::Key_Down:
-            std::cout<< "Key Down pressed."<<std::endl;
-            isMoved = game.moveDown();
-            game.operatemoveDown(isMoved);
-            break;
         default:
             return;
     }
