@@ -10,6 +10,10 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QSettings>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QDir>
+#include <QFile>
 #include <map>
 
 QT_BEGIN_NAMESPACE
@@ -27,8 +31,9 @@ public:
     void paintEvent(QPaintEvent *event);
     
     QPushButton *button;
-    void myRand();
     GameBoard game; 
+    void openFile();
+    void saveFile();
 
 public slots:
     void slotStart();    

@@ -42,12 +42,13 @@ public:
     void operatemoveLeft(bool isMoved);
     void operatemoveRight(bool isMoved);
     bool isBoardFull();
+    int highestScore;
+
 
 private:
     // Helper functions
     void addNewTile();
     void mergeCells(int currentRow, int currentCol, int nextRow, int nextCol);
-    int highestScore;
 
 };
 

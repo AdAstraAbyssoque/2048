@@ -26,6 +26,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     game.initializeBoard();
+    setFocus();
+
+    QMenuBar *menuBar = new QMenuBar(this);
+    setMenuBar(menuBar);
+
+    QMenu *fileMenu = menuBar->addMenu("File");
+
+    QAction *openAction = fileMenu->addAction("Open");
+    QAction *saveAction = fileMenu->addAction("Save");
+
+    connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::saveFile);
 
     button = new QPushButton("Start", this);
     button->setGeometry(60,400,200,50);
@@ -51,6 +63,58 @@ MainWindow::MainWindow(QWidget *parent)
     titleLabel->setGeometry(100, 10, 200, 100); 
 
 
+}
+
+void MainWindow::openFile() {
+    QString fileName = QFileDialog::getOpenFileName(this, "Open File", QDir::homePath(), "Text Files (*.txt)");
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Could not open file");
+        return;
+    }
+    QTextStream in(&file);
+    QString line = in.readLine();
+    QStringList list = line.split(" ");
+    int index = 0;
+    for (int i = 0; i < 4; i++) {
+        // Initialize each row with 0s
+        for (int j = 0; j < 4; j++) {
+            game.board[i][j] = list[index].toInt();
+            index++;
+        }
+    }
+    game.score = list[index].toInt();
+    game.highestScore = list[index + 1].toInt();
+    gameStarted = true;
+    updateScoreLabel();
+    updateHighestScoreLabel();
+    update();
+}
+
+void MainWindow::saveFile() {
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File", QDir::homePath(), "Text Files (*.txt)");
+    if (!fileName.endsWith(".txt")) {
+        fileName += ".txt";
+    }
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Could not save file");
+        return;
+    }
+    QTextStream out(&file);
+    QString line = "";
+    for (int i = 0; i < 4; i++) {
+        // Initialize each row with 0s
+        for (int j = 0; j < 4; j++) {
+            line += QString::number(game.board[i][j]) + " ";
+        }
+    }
+    line += QString::number(game.score);
+    out << line;
+    line += QString::number(game.highestScore);
+    out << line;
+    file.close();
 }
 
 MainWindow::~MainWindow()
@@ -104,8 +168,6 @@ void MainWindow::paintEvent(QPaintEvent *event){
     p.setPen(Qt::black);
     p.setFont(QFont("Arial", 20));
 
-    QString strscore;
-    p.drawText(60, 350, "Score: " + strscore.setNum(game.getScore()));
         for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             p.setPen(Qt::transparent);
@@ -168,6 +230,26 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
             isMoved = game.moveRight();
             game.operatemoveRight(isMoved);
             break;
+        case Qt::Key_Right:
+            std::cout<< "Key Right pressed."<<std::endl;
+            isMoved = game.moveRight();
+            game.operatemoveRight(isMoved);
+            break;
+        case Qt::Key_Left:
+            std::cout<< "Key Left pressed."<<std::endl;
+            isMoved = game.moveLeft();
+            game.operatemoveLeft(isMoved);
+            break;
+        case Qt::Key_Up:
+            std::cout<< "Key Up pressed."<<std::endl;
+            isMoved = game.moveUp();
+            game.operatemoveUp(isMoved);
+            break;
+        case Qt::Key_Down:
+            std::cout<< "Key Down pressed."<<std::endl;
+            isMoved = game.moveDown();
+            game.operatemoveDown(isMoved);
+            break;
         default:
             return;
     }
@@ -183,13 +265,6 @@ void MainWindow::slotStart(){
     updateHighestScoreLabel();
     update(); 
     gameStarted = true;
-}
-
-void MainWindow::myRand(){
-    if (game.isBoardFull()){
-        QMessageBox::information(this, "Game Over", "The score is: " + QString::number(game.getScore()));
-        return;
-    }
 }
 
 // Game logic functions
