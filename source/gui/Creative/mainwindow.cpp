@@ -179,8 +179,63 @@ void MainWindow::paintEvent(QPaintEvent *event){
 
                 if (value != 0) {
                     p.setPen(Qt::black);
-                    p.setFont(QFont("Arial", 20));
-                    p.drawText(QRect(i * 60 + 40, j * 60 + 120, 55, 55), QString::number(value), QTextOption(Qt::AlignCenter));
+                    p.setFont(QFont("Arial", 14));
+                    QString customText;
+                    switch (value) {
+                        case 2:
+                            customText = "Hello\nWorld";
+                            break;
+                        case 4:
+                            customText = "Oper\nator";
+                            break;
+                        case 8:
+                            customText = "Func\ntion";
+                            break;
+                        case 16:
+                            customText = "Array";
+                            break;
+                        case 32:
+                            customText = "Recur\nsion";
+                            break;
+                        case 64:
+                            customText = "Struct";
+                            break;
+                        case 128:
+                            customText = "Stream";
+                            break;
+                        case 256:
+                            customText = "Pointer";
+                            break;
+                        case 512:
+                            customText = "Con\ntainers";
+                            break;
+                        case 1024:
+                            customText = "Algo\nrithm";
+                            break;
+                        case 2048:
+                            customText = "Qt";
+                            break;
+                        case 4096:
+                            customText = "STL";
+                            break;
+                        case 8192:
+                            customText = "C++";
+                            break;
+                        case 16384:
+                            customText = "C";
+                            break;
+                        case 32768:
+                            customText = "Java";
+                            break;
+                        case 65536:
+                            customText = "Python";
+                            break;
+                        default:
+                            customText = QString::number(value);
+                            break;
+                    }
+
+                    p.drawText(QRect(i * 60 + 40, j * 60 + 120, 55, 55), customText, QTextOption(Qt::AlignCenter));
                 }
             } else {
                 p.setBrush(Qt::lightGray);

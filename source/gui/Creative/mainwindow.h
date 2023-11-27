@@ -14,6 +14,7 @@
 #include <QTextStream>
 #include <QDir>
 #include <QFile>
+#include <QPropertyAnimation>
 #include <map>
 
 QT_BEGIN_NAMESPACE
@@ -44,11 +45,13 @@ private:
     int highestScore;
     int currentScore;
     void updateHighestScoreLabel();
-    void updateHighestScore(int score); 
     QLabel* highestScoreLabel;
     void updateScoreLabel();
     QLabel* currentScoreLabel;
     bool gameStarted;
+    QPropertyAnimation *scrollAnimation;
+
+
 };
 #endif // MAINWINDOW_H
 
