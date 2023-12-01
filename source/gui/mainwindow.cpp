@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , highestScore(0)
     , currentScore(0)
-    , gameStarted(false)
+    , gameStarted(true)
 {
     ui->setupUi(this);
     game.initializeBoard();
@@ -31,19 +31,16 @@ MainWindow::MainWindow(QWidget *parent)
     QMenuBar *menuBar = new QMenuBar(this);
     setMenuBar(menuBar);
 
-    QMenu *fileMenu = menuBar->addMenu("File");
+    QMenu *fileMenu = menuBar->addMenu("Operation");
 
     QAction *openAction = fileMenu->addAction("Open");
     QAction *saveAction = fileMenu->addAction("Save");
-
+    QAction *restartAction = fileMenu->addAction("Restart");  
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(saveAction, &QAction::triggered, this, &MainWindow::saveFile);
-
-    button = new QPushButton("Start", this);
-    button->setGeometry(60,400,200,50);
+    connect(restartAction, &QAction::triggered, this, &MainWindow::slotRestart); 
 
     srand(uint(QTime(0,0,0).secsTo(QTime::currentTime())));
-    connect(button, SIGNAL(clicked()), this, SLOT(slotStart()));
 
     highestScoreLabel = new QLabel("Highest Score: 0", this);
     statusBar()->addWidget(highestScoreLabel);
@@ -61,8 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     titleLabel->setFont(QFont("Arial", 40, QFont::Bold));
     titleLabel->setStyleSheet("QLabel { color : #776e65; }"); 
     titleLabel->setGeometry(100, 10, 200, 100); 
-
-
+  
 }
 
 void MainWindow::openFile() {
@@ -245,9 +241,7 @@ void MainWindow::paintEvent(QPaintEvent *event){
     }
 }
 void MainWindow::keyPressEvent(QKeyEvent *event){
-    if (!gameStarted) {
-        return;
-    }
+
     if (game.isGameOver()){
         int score = game.getScore();
 
@@ -264,6 +258,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         }
     }
     bool isMoved = false;
+
     switch (event->key()){
         case Qt::Key_W:
             //std::cout<< "Key W pressed."<<std::endl;
@@ -285,7 +280,28 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
             isMoved = game.moveRight();
             game.operatemoveRight(isMoved);
             break;
+        case Qt::Key_Left:
+            //std::cout<< "Key Left pressed."<<std::endl;
+            isMoved = game.moveLeft();
+            game.operatemoveLeft(isMoved);
+            break;
+        case Qt::Key_Right:
+            //std::cout<< "Key Right pressed."<<std::endl;
+            isMoved = game.moveRight();
+            game.operatemoveRight(isMoved);
+            break;
+        case Qt::Key_Up:
+            //std::cout<< "Key Up pressed."<<std::endl;
+            isMoved = game.moveUp();
+            game.operatemoveUp(isMoved);
+            break;
+        case Qt::Key_Down:
+            //std::cout<< "Key Down pressed."<<std::endl;
+            isMoved = game.moveDown();
+            game.operatemoveDown(isMoved);
+            break;
         default:
+            std::cout<<event->key()<<std::endl;
             return;
     }
     updateScoreLabel();  
@@ -296,7 +312,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 void MainWindow::slotStart(){
     QMessageBox::information(this, "Start", "Game Start!");
     game.initializeBoard();
-    button->setText("Restart");
+    updateHighestScoreLabel();
+    update(); 
+    gameStarted = true;
+}
+void MainWindow::slotRestart(){
+    QMessageBox::information(this, "Restart", "Game Restart!");
+    game.initializeBoard();
     updateHighestScoreLabel();
     update(); 
     gameStarted = true;

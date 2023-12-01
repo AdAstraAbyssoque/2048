@@ -38,7 +38,7 @@ public:
 
 public slots:
     void slotStart();    
-
+    void slotRestart();
 
 private:
     Ui::MainWindow *ui;
