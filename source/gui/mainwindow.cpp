@@ -157,79 +157,37 @@ std::map<int, QColor> colorMap = {
     {32768, Qt::lightGray},
     {65536, Qt::white}
 };
-
-void MainWindow::paintEvent(QPaintEvent *event){
+void MainWindow::paintEvent(QPaintEvent *event) {
     (void)event;
     QPainter p(this);
     p.setPen(Qt::black);
     p.setFont(QFont("Arial", 20));
 
-        for (int i = 0; i < 4; i++) {
+    // 读取文本映射配置
+    QFile configFile("config.json");
+    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "无法打开 config.json 文件";
+        return;
+    }
+
+    QJsonDocument configDoc = QJsonDocument::fromJson(configFile.readAll());
+    configFile.close();
+
+    QJsonObject textMapping = configDoc.object()["textMappingOrigin"].toObject();
+
+    for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             p.setPen(Qt::transparent);
             int value = game.board[j][i];
-            
+
             if (colorMap.find(value) != colorMap.end()) {
                 p.setBrush(colorMap[value]);
                 p.drawRoundedRect(i * 60 + 40, j * 60 + 120, 55, 55, 10, 10);
 
                 if (value != 0) {
                     p.setPen(Qt::black);
-                    p.setFont(QFont("Arial", 14));
-                    QString customText;
-                    switch (value) {
-                        case 2:
-                            customText = "Hello\nWorld";
-                            break;
-                        case 4:
-                            customText = "Oper\nator";
-                            break;
-                        case 8:
-                            customText = "Func\ntion";
-                            break;
-                        case 16:
-                            customText = "Array";
-                            break;
-                        case 32:
-                            customText = "Recur\nsion";
-                            break;
-                        case 64:
-                            customText = "Struct";
-                            break;
-                        case 128:
-                            customText = "Stream";
-                            break;
-                        case 256:
-                            customText = "Pointer";
-                            break;
-                        case 512:
-                            customText = "Con\ntainers";
-                            break;
-                        case 1024:
-                            customText = "Algo\nrithm";
-                            break;
-                        case 2048:
-                            customText = "Qt";
-                            break;
-                        case 4096:
-                            customText = "STL";
-                            break;
-                        case 8192:
-                            customText = "C++";
-                            break;
-                        case 16384:
-                            customText = "C";
-                            break;
-                        case 32768:
-                            customText = "Java";
-                            break;
-                        case 65536:
-                            customText = "Python";
-                            break;
-                        default:
-                            customText = QString::number(value);
-                            break;
-                    }
+                    p.setFont(QFont("Arial", 20));
+                    QString customText = textMapping.value(QString::number(value)).toString();
 
                     p.drawText(QRect(i * 60 + 40, j * 60 + 120, 55, 55), customText, QTextOption(Qt::AlignCenter));
                 }
@@ -240,6 +198,7 @@ void MainWindow::paintEvent(QPaintEvent *event){
         }
     }
 }
+
 void MainWindow::keyPressEvent(QKeyEvent *event){
 
     if (game.isGameOver()){
@@ -254,7 +213,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         int ret = msgBox.exec();
 
         if (ret == QMessageBox::Ok) {
-            slotStart();
+            slotRestart();
         }
     }
     bool isMoved = false;
@@ -535,17 +494,44 @@ void GameBoard::operatemoveRight(bool isMoved) {
 
 // Helper functions
 void GameBoard::addNewTile() {
-        // Add a new tile (2 or 4) to the board
-        int tileValue;
+        QFile configFile("config.json");
+        if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "cannot open file";
+            return;
+        }
 
-        // 90% chance of getting a 2, 10% chance of getting a 4
-        std::uniform_int_distribution<int> distribution(0, 9);
+        QJsonDocument configDoc = QJsonDocument::fromJson(configFile.readAll());
+        configFile.close();
+
+        QJsonObject probabilities = configDoc.object()["probabilities"].toObject();
+        int probabilityValue2 = probabilities["value2"].toInt();
+        int probabilityValue4 = probabilities["value4"].toInt();
+        int probabilityValue8 = probabilities["value8"].toInt();
+        int probabilityValue16 = probabilities["value16"].toInt();
+        int probabilityValue32 = probabilities["value32"].toInt();
+        int probabilityValue64 = probabilities["value64"].toInt();
+        
+
+        // Add a new tile to the board
+
+        std::uniform_int_distribution<int> distribution(0, 99);
         int randValue = distribution(rng);
 
-        if (randValue < 9) {
+        int tileValue;
+        if (randValue < probabilityValue2) {
             tileValue = 2;
-        } else {
+        } else if (randValue >= probabilityValue2 && randValue < probabilityValue2 + probabilityValue4) {
             tileValue = 4;
+        } else if  (randValue >= probabilityValue2 + probabilityValue4 && randValue < probabilityValue2 + probabilityValue4 + probabilityValue8) {
+            tileValue = 8;
+        } else if  (randValue >= probabilityValue2 + probabilityValue4 + probabilityValue8 && randValue < probabilityValue2 + probabilityValue4 + probabilityValue8 + probabilityValue16) {
+            tileValue = 16;
+        } else if  (randValue >= probabilityValue2 + probabilityValue4 + probabilityValue8 + probabilityValue16 && randValue < probabilityValue2 + probabilityValue4 + probabilityValue8 + probabilityValue16 + probabilityValue32) {
+            tileValue = 32;
+        } else if  (randValue >= probabilityValue2 + probabilityValue4 + probabilityValue8 + probabilityValue16 + probabilityValue32 && randValue < probabilityValue2 + probabilityValue4 + probabilityValue8 + probabilityValue16 + probabilityValue32 + probabilityValue64) {
+            tileValue = 64;
+        } else {
+            tileValue = 128;
         }
 
         // Find a random empty tile and add the new tile

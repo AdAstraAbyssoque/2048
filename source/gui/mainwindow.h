@@ -16,6 +16,10 @@
 #include <QFile>
 #include <QPropertyAnimation>
 #include <map>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
