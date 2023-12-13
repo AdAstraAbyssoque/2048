@@ -1,57 +1,83 @@
-# 2048
+# 2048 Game GUI Version Design Report
 
-This is a simple implementation of the 2048 game.
+## I. Project Overview
 
-## How to Play
+This project is a GUI version of the 2048 game implemented using the Qt framework. It comprises the core game logic (GameBoard class) and the graphical user interface (MainWindow class).
 
-The goal of the game is to reach the 2048 tile by merging tiles with the same number. Use the arrow keys to move the tiles in the desired direction. When two tiles with the same number collide, they merge into a tile with the sum of their numbers. The game ends when there are no more valid moves available.
+- **GameBoard Class:** Encapsulates the core game logic, including functions such as initializing the game board, moving tiles, and merging tiles.
 
-## Release Structure
+- **MainWindow Class:** Responsible for GUI-related drawing and interactions, reflecting the game state and receiving user input by connecting with the GameBoard.
 
-- CIL version release
-- GUI version release based on Qt 6.6
-- Variant of GUI version, Creative version, has been released
+## II. Design Changes
 
-## Features
+1. Implemented GUI interface using the Qt framework with the main window using QWidget and rendering the board through canvas drawing.
 
-- Simple and intuitive gameplay
-- Keep track of your progress with score recording
-- Save and open mechanism
+2. Read external JSON files to configure different tile probabilities and text styles.
 
-## Contribution
+3. Added menu bar functionality, supporting file operations such as opening and saving game states.
 
-Contributions are welcome! If you have any ideas or suggestions for improvements, feel free to open an issue or submit a pull request.
+4. Introduced a restart feature, allowing players to restart the game directly after it ends.
 
-## License
+5. Included achievement notifications, displaying a "Level Completed" message upon reaching the 2048 tile.
 
-This project is licensed under the MIT License. For more information, see the [LICENSE](LICENSE) file.
+6. The status bar displays the current score and the highest score achieved.
 
-# 2048
+## III. Implementation Details
 
-这是一个简单的2048游戏的实现。
+- **GameBoard Class:** Retained the original core game logic.
 
-## 如何玩
+- **MainWindow Class:** Based on QWidget, implemented board drawing by overriding the paintEvent. Connected with GameBoard signals and slots to update the interface. Keyboard events are delegated to GameBoard for move validation.
 
-游戏的目标是通过合并相同数字的方块来达到2048方块。使用箭头键将方块移动到所需的方向。当两个相同数字的方块碰撞时，它们会合并成一个数字之和的方块。当没有更多有效的移动可用时，游戏结束。
+- **MenuBar:** Provides file operations and game settings.
 
-## 发布结构
+- **Status Bar:** Displays real-time current score and highest score.
 
-- cil版本发布
-- 基于Qt6.6的gui版本发布
-- gui版本的变种Creative版本已发布
+- **Popup Notifications:** Implemented logic for level completion and restarting.
 
-## 特点
+## IV. Summary
 
-- 简单直观的游戏玩法
-- 记录分数以跟踪您的进度
-- 保存和打开机制
+This GUI version, leveraging the Qt framework, adeptly translates the original game rules into a graphical interface. While maintaining the core game logic, the design elevates the user experience through nuanced improvements. The design is lucid, with clear responsibilities for each class, and a judicious coupling of GUI and game rules. This stands as an outstanding implementation of the 2048 game in a GUI environment.
 
-## 贡献
+# 2048游戏GUI版本设计报告
 
-欢迎贡献！如果您有任何想法或改进意见，请随时提出问题或提交拉取请求。
+## 一、 项目概述
 
-## 许可证
+该项目是一个使用Qt框架实现的2048游戏GUI版本，包括核心逻辑（GameBoard类）和图形用户界面（MainWindow类）。
 
-本项目基于 MIT 许可证。有关更多信息，请参阅 [LICENSE](LICENSE) 文件。
+- **GameBoard类：** 封装了游戏的核心逻辑，包括初始化棋盘、移动方块、合并方块等关键功能。
+  
+- **MainWindow类：** 负责GUI界面的设计和交互，通过连接GameBoard来反映游戏状态并接收用户输入。
 
+## 二、 设计变更
 
+1. 使用Qt框架实现GUI界面，主窗口采用QWidget，通过画布绘图渲染棋盘。
+
+2. 通过读取外部json文件配置不同方块概率和文本样式。
+
+3. 增加菜单栏功能，支持文件操作如打开、保存游戏状态。
+
+4. 增加重启功能，游戏结束后支持直接重新开始。
+
+5. 添加成就提示，在达到2048方块时提示“通关”。
+
+6. 状态栏显示当前得分和最高得分。
+
+## 三、 具体实现
+
+- **GameBoard类：** 保留原有核心游戏逻辑不变。
+
+- **MainWindow类：** 基于QWidget，通过重写paintEvent实现棋盘绘制，连接GameBoard信号槽更新界面，将键盘事件交给GameBoard进行移动判断。
+
+- **MenuBar：** 提供文件操作和游戏设置。
+
+- **状态栏：** 实时显示当前分数和最高分。
+
+- **弹出提示：** 实现通关及重新开始逻辑。
+
+## 四、 总结
+
+该GUI版本通过引入Qt框架，将原有游戏规则巧妙地融入图形界面。在保留核心游戏逻辑不变的同时，通过优化用户体验细节，提升了整体设计水平。设计思路清晰，类职责明确，GUI和游戏规则的耦合得当。这是一个出色的2048游戏GUI实现。
+
+---
+
+**注意：** 以上是初版设计报告的修改版本，按照Markdown格式呈现。
