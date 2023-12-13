@@ -31,14 +31,18 @@ MainWindow::MainWindow(QWidget *parent)
     QMenuBar *menuBar = new QMenuBar(this);
     setMenuBar(menuBar);
 
-    QMenu *fileMenu = menuBar->addMenu("Operation");
+    QMenu *fileMenu = menuBar->addMenu("File");
 
+    QMenu *configMenu = menuBar->addMenu("Settings");
+
+    QAction *editConfigAction = configMenu->addAction("Edit Config");
     QAction *openAction = fileMenu->addAction("Open");
     QAction *saveAction = fileMenu->addAction("Save");
-    QAction *restartAction = fileMenu->addAction("Restart");  
+    QAction *restartAction = configMenu->addAction("Restart");  
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(saveAction, &QAction::triggered, this, &MainWindow::saveFile);
-    connect(restartAction, &QAction::triggered, this, &MainWindow::slotRestart); 
+    connect(restartAction, &QAction::triggered, this, &MainWindow::slotRestart);
+    connect(editConfigAction, &QAction::triggered, this, &MainWindow::editConfig);
 
     srand(uint(QTime(0,0,0).secsTo(QTime::currentTime())));
 
@@ -59,6 +63,27 @@ MainWindow::MainWindow(QWidget *parent)
     titleLabel->setStyleSheet("QLabel { color : #776e65; }"); 
     titleLabel->setGeometry(100, 10, 200, 100); 
   
+}
+
+void MainWindow::editConfig() {
+    QString fileName = QFileDialog::getOpenFileName(this, "Open Config File", QDir::homePath(), "JSON Files (*.json)");
+
+    if (!fileName.isEmpty()) {
+        QFile configFile(fileName);
+        if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            QMessageBox::critical(this, "Error", "Could not open config file");
+            return;
+        }
+
+        QTextStream in(&configFile);
+        QString configContent = in.readAll();
+
+        QString newConfigContent = QInputDialog::getMultiLineText(this, "Edit Config", "Edit Config Content:", configContent);
+
+        configFile.seek(0);
+        configFile.write(newConfigContent.toUtf8());
+        configFile.close();
+    }
 }
 
 void MainWindow::openFile() {

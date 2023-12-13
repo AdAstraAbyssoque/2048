@@ -20,6 +20,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QInputDialog>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -43,6 +45,7 @@ public:
 public slots:
     void slotStart();    
     void slotRestart();
+    void editConfig();
 
 private:
     Ui::MainWindow *ui;
