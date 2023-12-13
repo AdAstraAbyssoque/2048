@@ -14,6 +14,8 @@ class GameBoard {
 public:
     int board[4][4];
     int score;
+    bool isWin = false;
+    bool isChoose = false;
     // Constructor
     GameBoard();
 
@@ -41,6 +43,7 @@ public:
     void operatemoveLeft(bool isMoved);
     void operatemoveRight(bool isMoved);
     bool isBoardFull();
+    void judgeWin();
     int highestScore;
 
 private:

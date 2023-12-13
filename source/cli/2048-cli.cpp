@@ -413,13 +413,55 @@ void GameBoard::mergeCells(int currentRow, int currentCol, int nextRow, int next
     score += board[nextRow][nextCol]; // Increment the score after merging cells
 }
 
+void GameBoard::judgeWin(){
+    // Check if the user has already made a choice, if yes, exit early
+    if (isChoose) {
+        return;
+    }
+
+    // If any tile is higher than 2048, hint the user winning the game, and ask if they want to continue
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (board[i][j] >= 8) {  // Check if any tile is higher than or equal to 2048
+                isWin = true;
+                break;  // No need to continue checking once a win is found
+            }
+        }
+        if (isWin) {
+            break;  // No need to continue checking rows once a win is found
+        }
+    }
+    
+    if (isWin) {
+        std::cout << "You win! Do you want to continue? (Y/N)" << std::endl;
+        char input;
+        std::cin >> input;
+        if (input == 'n' || input == 'N') {
+            quit();
+        }
+        else if (input == 'y' || input == 'Y') {
+            std::cout << "Game has continued!" << std::endl;
+            displayBoard();
+        }
+        isChoose = true;  // Mark that the user has made a choice
+    }
+}
+
+
+
+
 int main() {
     GameBoard game; // Instantiate the game board
 
     // Game loop
     while (!game.isGameOver()) {        
         // Display the current state of the board and score
+
         game.displayBoard();
+
+        //If the one of the tile is higher than 2048, hint the user wining the game, and ask if they want to continue
+        
+        game.judgeWin();
 
         // Listen for user input
         char input;
