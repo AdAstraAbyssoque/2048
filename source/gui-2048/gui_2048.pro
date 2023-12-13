@@ -10,7 +10,6 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    core2048.hpp \
     mainwindow.h
 
 FORMS += \

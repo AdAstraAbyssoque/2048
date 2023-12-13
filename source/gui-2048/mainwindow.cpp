@@ -199,7 +199,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     QJsonDocument configDoc = QJsonDocument::fromJson(configFile.readAll());
     configFile.close();
 
-    QJsonObject textMapping = configDoc.object()["textMappingOrigin"].toObject();
+    QJsonObject textMapping = configDoc.object()["textMapping"].toObject();
 
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -212,7 +212,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
                 if (value != 0) {
                     p.setPen(Qt::black);
-                    p.setFont(QFont("Arial", 20));
+                    p.setFont(QFont("Arial", 14));
                     QString customText = textMapping.value(QString::number(value)).toString();
 
                     p.drawText(QRect(i * 60 + 40, j * 60 + 120, 55, 55), customText, QTextOption(Qt::AlignCenter));
@@ -240,8 +240,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 
         if (ret == QMessageBox::Ok) {
             slotRestart();
+            return;
         }
     }
+
     bool isMoved = false;
 
     switch (event->key()){
@@ -581,7 +583,7 @@ void GameBoard::judgeWin() {
     if (!isWin && !isChoose) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (board[i][j] == 16) {
+                if (board[i][j] == 2048) {
                     QMessageBox msgBox;
                     msgBox.setText("Victory!");
                     msgBox.setInformativeText("Congratulations! You've reached 2048!Do you want to continue or quit the game?");
