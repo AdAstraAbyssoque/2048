@@ -9,21 +9,21 @@
         "value128": 0
     },
     "textMapping": {
-        "2": "Hello\nWorld",
-        "4": "Oper\nator",
-        "8": "Func\ntion",
-        "16": "Array",
-        "32": "Recur\nsion",
-        "64": "Struct",
-        "128": "Stream",
-        "256": "Pointer",
-        "512": "Con\ntainers",
+        "2": "Hello\nCpp",
+        "4": "Syntax\nSwirl",
+        "8": "Loop\nfrog",
+        "16": "Bug\nQuest",
+        "32": "Func\nFiesta",
+        "64": "File\nExplorer",
+        "128": "Pointer\nPuzzle",
+        "256": "Algo\nQuest",
+        "512": "OOPuzzle",
         "1024": "Algo\nrithm",
         "2048": "Qt",
-        "4096": "STL",
-        "8192": "C++",
-        "16384": "C",
-        "32768": "Java",
-        "65536": "Python"
+        "4096": "Debug\nDance",
+        "8192": "Thread\nTango",
+        "16384": "Net\nNebula",
+        "32768": "Memory\nMaze",
+        "65536": "Code\nNinja"
     }
 }

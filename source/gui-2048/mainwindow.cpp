@@ -165,22 +165,22 @@ int GameBoard::getHighestScore() const {
 
 std::map<int, QColor> colorMap = {
     {0, Qt::lightGray},
-    {2, Qt::yellow},
-    {4, Qt::darkYellow},
-    {8, Qt::green},
-    {16, Qt::darkGreen},
-    {32, Qt::cyan},
-    {64, Qt::darkCyan},
-    {128, Qt::magenta},
-    {256, Qt::darkMagenta},
-    {512, Qt::red},
-    {1024, Qt::darkRed},
-    {2048, Qt::blue},
-    {4096, Qt::darkBlue},
-    {8192, Qt::gray},
-    {16384, Qt::darkGray},
-    {32768, Qt::lightGray},
-    {65536, Qt::white}
+    {2, QColor("#ADCCCF")},
+    {4, QColor("#C1A2CA")},
+    {8, QColor("#E1B2BB")},
+    {16, QColor("#99C2D1")},
+    {32, QColor("#77B7CE")},
+    {64, QColor("#7CA9CB")},
+    {128, QColor("#735FB7")},
+    {256, QColor("#5952B4")},
+    {512, QColor("#FDC81E")},
+    {1024, QColor("#FE6D2B")},
+    {2048, QColor("#FED525")},
+    {4096, QColor("#FED525")},
+    {8192, QColor("#FED525")},
+    {16384, QColor("#FED525")},
+    {32768, QColor("#FED525")},
+    {65536, QColor("#FED525")}
 };
 
 void MainWindow::paintEvent(QPaintEvent *event) {
