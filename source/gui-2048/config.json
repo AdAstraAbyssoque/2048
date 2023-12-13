@@ -1,12 +1,12 @@
 {
     "probabilities": {
-        "value2": 30,
-        "value4": 20,
+        "value2": 90,
+        "value4": 10,
         "value8": 0,
-        "value16": 5,
-        "value32": 5,
+        "value16": 0,
+        "value32": 0,
         "value64": 0,
-        "value128": 40
+        "value128": 0
     },
     "textMappingHappy": {
         "2": "Hello\nWorld",

@@ -13,8 +13,6 @@ HEADERS += \
     core2048.hpp \
     mainwindow.h
 
-DESTDIR = ../build
-
 FORMS += \
     mainwindow.ui
 

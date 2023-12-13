@@ -157,6 +157,7 @@ std::map<int, QColor> colorMap = {
     {32768, Qt::lightGray},
     {65536, Qt::white}
 };
+
 void MainWindow::paintEvent(QPaintEvent *event) {
     (void)event;
     QPainter p(this);
@@ -266,6 +267,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     updateScoreLabel();  
     updateHighestScoreLabel();
     update();
+
+    game.judgeWin();
 }
 
 void MainWindow::slotStart(){
@@ -275,6 +278,7 @@ void MainWindow::slotStart(){
     update(); 
     gameStarted = true;
 }
+
 void MainWindow::slotRestart(){
     QMessageBox::information(this, "Restart", "Game Restart!");
     game.initializeBoard();
@@ -548,6 +552,34 @@ void GameBoard::addNewTile() {
         board[randRow][randCol] = tileValue;
     }
 
+void GameBoard::judgeWin() {
+    if (!isWin && !isChoose) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (board[i][j] == 16) {
+                    QMessageBox msgBox;
+                    msgBox.setText("Victory!");
+                    msgBox.setInformativeText("Congratulations! You've reached 2048!Do you want to continue or quit the game?");
+                    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                    msgBox.setDefaultButton(QMessageBox::Yes);
+
+                    int ret = msgBox.exec();
+
+                    if (ret == QMessageBox::Yes) {
+                        isWin = true;
+                        isChoose = true;
+                    } else {
+                        isWin = false;
+                        isChoose = false;
+                        exit(0);
+                    }
+                    return;
+                }
+            }
+        }
+    }
+}
+
 bool GameBoard::isBoardFull() {
     // Check if the board is full
     bool isFull = true;
@@ -560,7 +592,6 @@ bool GameBoard::isBoardFull() {
     }
     return isFull;
 }
-
 
 void GameBoard::mergeCells(int currentRow, int currentCol, int nextRow, int nextCol) {
     board[nextRow][nextCol] *= 2;  
