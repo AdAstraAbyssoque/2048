@@ -1,83 +1,89 @@
-# 2048 Game GUI Version Design Report
+***Please roll down to see the English version***
 
-## I. Project Overview
+# 2048游戏(GUI版)
 
-This project is a GUI version of the 2048 game implemented using the Qt framework. It comprises the core game logic (GameBoard class) and the graphical user interface (MainWindow class).
+该项目是一个基于Qt框架的2048小游戏GUI实现。
 
-- **GameBoard Class:** Encapsulates the core game logic, including functions such as initializing the game board, moving tiles, and merging tiles.
+## 项目概述
 
-- **MainWindow Class:** Responsible for GUI-related drawing and interactions, reflecting the game state and receiving user input by connecting with the GameBoard.
+- 2048是一款网红数字匹配游戏。用户通过方向键上下左右移动棋盘内的方块,使得值相同的方块合并得到更高分数。
 
-## II. Design Changes
+- 该项目使用C++和Qt框架开发了2048的图形界面版本。保留了原始版游戏的基本规则和逻辑,并实现了更友好的GUI玩法。
 
-1. Implemented GUI interface using the Qt framework with the main window using QWidget and rendering the board through canvas drawing.
+## 主要特征
 
-2. Read external JSON files to configure different tile probabilities and text styles.
+- 游戏核心逻辑封装在GameBoard类中,保留原版游戏规则实现。
 
-3. Added menu bar functionality, supporting file operations such as opening and saving game states.
+- MainWindow类基于QWidget实现 GUI 界面绘制及交互。
 
-4. Introduced a restart feature, allowing players to restart the game directly after it ends.
+- 读取外部JSON配置定制方块样式和概率。
 
-5. Included achievement notifications, displaying a "Level Completed" message upon reaching the 2048 tile.
+- 提供文件操作菜单如打开、保存游戏状态。
 
-6. The status bar displays the current score and the highest score achieved.
+- 增加“通关”提示及重新开始功能。
 
-## III. Implementation Details
+- 状态栏实时显示当前得分和最高记录。
 
-- **GameBoard Class:** Retained the original core game logic.
+## 使用说明
 
-- **MainWindow Class:** Based on QWidget, implemented board drawing by overriding the paintEvent. Connected with GameBoard signals and slots to update the interface. Keyboard events are delegated to GameBoard for move validation.
+1. 想开始新游戏,点击"开始"按钮。
 
-- **MenuBar:** Provides file operations and game settings.
+2. 使用方向键或鼠标移动方块合并得分。 
 
-- **Status Bar:** Displays real-time current score and highest score.
+3. 当达到2048方块将提示"通关",询问是否继续。
 
-- **Popup Notifications:** Implemented logic for level completion and restarting.
+4. 游戏结束后,按R可立即重新开始。
 
-## IV. Summary
+5. 菜单栏可以打开保存已有游戏数据。
 
-This GUI version, leveraging the Qt framework, adeptly translates the original game rules into a graphical interface. While maintaining the core game logic, the design elevates the user experience through nuanced improvements. The design is lucid, with clear responsibilities for each class, and a judicious coupling of GUI and game rules. This stands as an outstanding implementation of the 2048 game in a GUI environment.
+## 项目地址
 
-# 2048游戏GUI版本设计报告
+该项目源码已上传至GitHub:
 
-## 一、 项目概述
+[https://github.com/AdAstraAbyssoque/2048]
 
-该项目是一个使用Qt框架实现的2048游戏GUI版本，包括核心逻辑（GameBoard类）和图形用户界面（MainWindow类）。
+欢迎Star、Fork收藏,也欢迎提出 Issues 和 PR !
 
-- **GameBoard类：** 封装了游戏的核心逻辑，包括初始化棋盘、移动方块、合并方块等关键功能。
-  
-- **MainWindow类：** 负责GUI界面的设计和交互，通过连接GameBoard来反映游戏状态并接收用户输入。
+# 2048 Game (GUI Version)
 
-## 二、 设计变更
+This project is a graphical user interface (GUI) implementation of the 2048 game based on the Qt framework.
 
-1. 使用Qt框架实现GUI界面，主窗口采用QWidget，通过画布绘图渲染棋盘。
+## Project Overview
 
-2. 通过读取外部json文件配置不同方块概率和文本样式。
+- 2048 is a popular number-matching game where users move blocks on the board using arrow keys to merge blocks with the same value and achieve higher scores.
 
-3. 增加菜单栏功能，支持文件操作如打开、保存游戏状态。
+- Developed in C++ using the Qt framework, this project implements a graphical version of the 2048 game. It retains the basic rules and logic of the original game while introducing a more user-friendly GUI gameplay.
 
-4. 增加重启功能，游戏结束后支持直接重新开始。
+## Key Features
 
-5. 添加成就提示，在达到2048方块时提示“通关”。
+- The core game logic is encapsulated in the GameBoard class, preserving the rules of the original game.
 
-6. 状态栏显示当前得分和最高得分。
+- The MainWindow class, based on QWidget, handles GUI interface drawing and interaction.
 
-## 三、 具体实现
+- External JSON configurations are read to customize block styles and probabilities.
 
-- **GameBoard类：** 保留原有核心游戏逻辑不变。
+- File operation menu options are provided, such as opening and saving game states.
 
-- **MainWindow类：** 基于QWidget，通过重写paintEvent实现棋盘绘制，连接GameBoard信号槽更新界面，将键盘事件交给GameBoard进行移动判断。
+- Added "Level Completed" prompt and restart functionality.
 
-- **MenuBar：** 提供文件操作和游戏设置。
+- The status bar dynamically displays the current score and the highest record.
 
-- **状态栏：** 实时显示当前分数和最高分。
+## Instructions for Use
 
-- **弹出提示：** 实现通关及重新开始逻辑。
+1. To start a new game, click the "Start" button.
 
-## 四、 总结
+2. Use arrow keys or the mouse to move and merge blocks for points.
 
-该GUI版本通过引入Qt框架，将原有游戏规则巧妙地融入图形界面。在保留核心游戏逻辑不变的同时，通过优化用户体验细节，提升了整体设计水平。设计思路清晰，类职责明确，GUI和游戏规则的耦合得当。这是一个出色的2048游戏GUI实现。
+3. Upon reaching the 2048 block, a "Level Completed" prompt will appear, asking if you want to continue.
 
----
+4. After the game ends, press 'R' to immediately restart.
 
-**注意：** 以上是初版设计报告的修改版本，按照Markdown格式呈现。
+5. The menu bar allows you to open and save existing game data.
+
+## Project Repository
+
+The source code for this project has been uploaded to GitHub:
+
+[https://github.com/AdAstraAbyssoque/2048]
+
+Feel free to Star, Fork, and contribute by raising Issues and PRs!
