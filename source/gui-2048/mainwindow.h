@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "core2048.hpp"
+#include "../core-2048/core_2048.hpp"
 
 #include <QMainWindow>
 #include <QPushButton>

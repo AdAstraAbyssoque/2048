@@ -1,6 +1,9 @@
 // core2048.cpp
 
-#include "core2048.hpp"
+#include "../core-2048/core_2048.hpp"
+
+std::random_device rd; 
+std::mt19937 rng; 
 
 // Constructor definition
 GameBoard::GameBoard() {

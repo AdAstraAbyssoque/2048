@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "core2048.hpp"
+#include "../core-2048/core_2048.hpp"
 
 
 std::random_device rd;
